@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../static/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .floating-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">请登录</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" action="/login_info" method="POST" id="loginForm">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="用户名" name="username" id="username" type="username" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="密码" name="password" id="password" type="password" value="">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="remember" id="rememberMe" type="checkbox" value="Remember Me">Remember Me
+                                    </label>
+                                </div>
+                                <input class="btn btn-lg btn-success btn-block" type="submit" name="submit" id="submit" value="登录">
+                                <a href="/signup" class="btn btn-lg btn-success btn-block">注册</a>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                    <script>
+                        // 在页面加载完成后执行的函数
+                        $(document).ready(function() {
+                            // 检查本地存储中是否保存了用户名和密码
+                            var storedUsername = localStorage.getItem('username');
+                            var storedPassword = localStorage.getItem('password');
+                
+                            if (storedUsername && storedPassword) {
+                                // 将保存的用户名和密码填充到表单中
+                                $('#username').val(storedUsername);
+                                $('#password').val(storedPassword);
+                                $('#rememberMe').prop('checked', true);
+                            }
+                
+                            // 监听表单提交事件
+                            $('#loginForm').submit(function() {
+                                // 检查是否选择了“记住我”选项
+                                var rememberMe = $('#rememberMe').is(':checked');
+                
+                                if (rememberMe) {
+                                    // 将用户名和密码保存到本地存储中
+                                    localStorage.setItem('username', $('#username').val());
+                                    localStorage.setItem('password', $('#password').val());
+                                } else {
+                                    // 如果未选择“记住我”，则清除本地存储中的用户名和密码
+                                    localStorage.removeItem('username');
+                                    localStorage.removeItem('password');
+                                }
+                            });
+                        });
+                    </script>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 检查URL中是否包含来自/路由的跳转
+        function checkReferrer() {
+            var referrer = document.referrer;
+            var pathArray = referrer.split('/');
+            var referringPage = pathArray[pathArray.length - 1];
+
+            if (referringPage === 'signup' || referringPage === 'index.html') {
+                // 在页面加载完成后执行的函数
+                $(document).ready(function() {
+                    // 创建登录成功提示的元素
+                    var alertElement = $('<div class="alert alert-success alert-dismissable floating-alert">' +
+                                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+                                            '注册成功，欢迎' +
+                                        '</div>');
+
+                    // 将提示元素添加到页面的body中
+                    $('body').append(alertElement);
+
+                    // 一段时间后自动隐藏提示
+                    setTimeout(function() {
+                        alertElement.fadeOut('slow', function() {
+                            $(this).remove();
+                        });
+                    }, 3000); // 这里的5000表示提示将在5秒后消失，可以根据需要调整时间
+                });
+            }
+        }
+
+        checkReferrer();
+    </script>
+
+    <!-- jQuery -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../static/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../static/dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>
