@@ -63,7 +63,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--datanum",
-        default=51,
+        default=50,
         type=int,
         required=False)
     return parser.parse_args()

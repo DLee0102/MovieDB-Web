@@ -67,6 +67,7 @@ def select_all_fromtable(tablename):
     
     return result_list
 
+# 向basic表中插入数据
 def insert_basic(datalist):
     conn = sqlite3.connect(dbpath)
     cur = conn.cursor()
@@ -75,17 +76,17 @@ def insert_basic(datalist):
     
     sql = '''
     insert into basic (
-    IMDb,
-    cname,
-    fname,
-    pic_link,
-    director,
-    location,
-    language,
-    uptime,
-    score,
-    rated,
-    instruction
+        IMDb,
+        cname,
+        fname,
+        pic_link,
+        director,
+        location,
+        language,
+        uptime,
+        score,
+        rated,
+        instruction
     )values (%s)
     '''%",".join(datalist)
     print(sql)
@@ -95,6 +96,7 @@ def insert_basic(datalist):
     conn.close()
     return True
 
+# 从basic表中删除值
 def delete_basic(datalist):
     conn = sqlite3.connect(dbpath)
     cur = conn.cursor()
