@@ -2,36 +2,55 @@
 ![](images/show1.gif)
 ![](images/show2.gif)
 ![](images/show3.gif)
+- [MovieDB-Web](#moviedb-web)
+  - [一、安装环境（Windows 10）](#一安装环境windows-10)
+  - [二、运行](#二运行)
+  - [三、文件说明](#三文件说明)
+  - [四、项目设计说明](#四项目设计说明)
+    - [1. 简介](#1-简介)
+    - [2. 需求分析](#2-需求分析)
+    - [3. ER模型](#3-er模型)
+    - [4. 关系模型和规范化](#4-关系模型和规范化)
+      - [关系模型](#关系模型)
+      - [规范化](#规范化)
+    - [5. 表的创建](#5-表的创建)
+    - [6. 数据库查询和触发器](#6-数据库查询和触发器)
+      - [查询](#查询)
+      - [触发器](#触发器)
+    - [7. 总结](#7-总结)
+  - [五、前端功能展示](#五前端功能展示)
+
+更多信息查看GitHub仓库：https://github.com/DLee0102/MovieDB-Web
 ## 一、安装环境（Windows 10）
 ```cmd
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 ## 二、运行
 - 创建数据库（在创建自己的数据库前请先删除我提供的数据库，你也可以跳过创建数据库这一步而使用我提前创建好的数据库）
 ```cmd
 python createdb.py
 ```
-- 启动爬虫（可以选择跳过这一部而使用我提前爬取好的数据，若你重新创建了新的数据库则一定要运行这一步）
+- 启动爬虫（可以选择跳过这一步而使用我提前爬取好的数据，若你重新创建了新的数据库则一定要运行这一步）
 ```cmd
 python spider.py --datanum 50
 ```
-- 启动flask
+- 启动flask（在我提供的数据库中，用户名dl，密码123000）
 ```cmd
 python app.py
 ```
 ## 三、文件说明
-- static/ JS以及前端渲染文件
-- templates/ html界面文件
-- app.py 运行Flask框架的脚本
-- createdb.py 创建数据库的脚本
-- dbopt.py 一些操作数据库的函数
-- spider.py 爬取电影数据的爬虫脚本
-- doubanMovielinks.xlsx 爬取数据用的链接
-- movie.db 数据库文件
-- movie.sql 创建数据库的sql语句
-- requirements.txt 环境依赖
+- static/ --------------JS以及前端渲染文件
+- templates/ ------------html界面文件
+- app.py ----------------运行Flask框架的脚本
+- createdb.py -----------创建数据库的脚本
+- dbopt.py ------------一些操作数据库的函数
+- spider.py -------------爬取电影数据的爬虫脚本
+- doubanMovielinks.xlsx ------------爬取数据用的链接
+- movie.db ------------数据库文件
+- movie.sql --------------创建数据库的sql语句
+- requirements.txt ----------------环境依赖
 
-## 项目设计说明
+## 四、项目设计说明
 ### 1. 简介
 - 本项目是一个基于Web的电影数据可视化和数据交互平台，实现了多种数据可视化和与后端数据交互两大功能。其中，数据可视化支持将后端数据统计后展示为折线图、柱形图和饼状图；数据交互支持将后端数据库数据分页展示在前端界面，并在前端提供动态查询功能，同时还支持便捷的数据插入和数据删除功能。除此之外，本项目还实现了界面登录功能。
 - 本项目基于Python Flask框架开发，前端采用了html, css, JS, DataTables, Echarts等多种语言和技术框架；后端数据库技术基于sqlite框架，并开发了爬虫脚本来爬取数据库测试用数据。
@@ -59,6 +78,17 @@ python app.py
 - Administrator
   - ![](images/administrator_relation.png)
 #### 规范化
+- actors(IMDb, actor_name)：
+  - IMDb, actor_name --> {IMDb, actor_name}, 满足BCNF范式
+- Administrator(username, password)
+  - username --> password, 满足BCNF范式
+- basic(IMDb, cname, fname, pic_link, director, location, language, uptime, score, rated, instruction)
+  - IMDb --> {cname, fname, pic_link, director, location, language, uptime, score, rated, instruction}, 满足BCNF范式
+- comments(IMDb, nickname, content):
+  - {IMDb, nickname, content} --> {IMDb, nickname, content}, 满足BCNF范式
+- insertlog(IMDb, opt_time):
+  - {IMDb, opt_time} --> {IMDb, opt_time}, 满足BCNF范式
+
 
 
 ### 5. 表的创建
@@ -174,7 +204,7 @@ END;
 ```
 ### 7. 总结
 - 我通过这个项目第一次自己动手设计了一个比较完整的数据库，对数据库设计原理和技巧有了更深入的了解。同时，我在编写项目代码的过程中用到了多种技术和框架，在学习这些技术的过程中我的代码能力、知识检索能力和与人沟通的能力得到了进一步提升，这对我而言是一次宝贵的项目经历。
-## 功能展示
+## 五、前端功能展示
 1. 登录功能（可通过浏览器缓存记住账号密码）
    ![](images/signin.png)
    ![](images/signin_success.png)
@@ -187,3 +217,4 @@ END;
    ![](images/datasearch.png)
 5. 数据库交互功能
    ![](images/insertformsuccess.png)
+更多信息查看GitHub仓库：https://github.com/DLee0102/MovieDB-Web
