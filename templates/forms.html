@@ -30,9 +30,114 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <style>
+        /* 弹窗样式 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 240, 0, 0.3);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+        }
+
+        /* 淡入动画效果 */
+        .popup.fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+
+        /* 淡出动画效果 */
+        .popup.fade-out {
+            animation: fade-out 0.3s ease-out;
+        }
+
+        /* 弹窗样式 */
+        .popup1 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.5); /* 设置为半透明的浅红色 */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+        }
+
+        /* 淡入动画效果 */
+        .popup1.fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+
+        /* 淡出动画效果 */
+        .popup1.fade-out {
+            animation: fade-out 0.3s ease-out;
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            // 获取弹窗容器元素
+            var popupContainer = document.getElementById("popupContainer");
+
+            // 显示弹窗
+            popupContainer.classList.add("fade-in");
+
+            // 设置定时器，在3秒后隐藏弹窗
+            setTimeout(function() {
+                // 隐藏弹窗
+                popupContainer.classList.remove("fade-in");
+                popupContainer.classList.add("fade-out");
+
+                // 延迟一段时间后移除弹窗
+                setTimeout(function() {
+                    popupContainer.remove();
+                }, 300);
+            }, 3000);
+        });
+    </script>
+
 </head>
 
 <body>
+
+    {% if ifshow_succeeded %}
+    <body>
+        <!-- 弹窗容器 -->
+        <div id="popupContainer" class="popup">
+            <h3>操作成功!</h3>
+        </div>
+    </body>
+    {% endif %}
+
+    {% if ifshow_failed %}
+    <body>
+        <!-- 弹窗容器 -->
+        <div id="popupContainer" class="popup1">
+            <h3>操作失败，全部值都不能为空!</h3>
+        </div>
+    </body>
+    {% endif %}
 
     <div id="wrapper">
 
@@ -96,61 +201,61 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             添加电影基本信息
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <form role="form">
+                                <div class="col-lg-8">
+                                    <form role="form" action="/insert2basic" method="POST" id="insertForm">
                                         <div class="form-group">
                                             <label>输入IMDb</label>
-                                            <input class="form-control" placeholder="输入IMDb">
+                                            <input class="form-control" placeholder="输入IMDb" name="IMDb">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影中文名称</label>
-                                            <input class="form-control" placeholder="输入电影中文名称">
+                                            <input class="form-control" placeholder="输入电影中文名称" name="cname">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影外文名称</label>
-                                            <input class="form-control" placeholder="输入电影外文名称">
+                                            <input class="form-control" placeholder="输入电影外文名称" name="fname">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影海报链接</label>
-                                            <input class="form-control" placeholder="输入电影海报链接">
+                                            <input class="form-control" placeholder="输入电影海报链接" name="pic_link">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影导演</label>
-                                            <input class="form-control" placeholder="输入电影导演">
+                                            <input class="form-control" placeholder="输入电影导演" name="director">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影上映国家</label>
-                                            <input class="form-control" placeholder="输入电影上映国家">
+                                            <input class="form-control" placeholder="输入电影上映国家" name="location">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影语言</label>
-                                            <input class="form-control" placeholder="输入电影语言">
+                                            <input class="form-control" placeholder="输入电影语言" name="language">
                                         </div>
                                         <div class="form-group">
                                             <label>输入上映时间</label>
-                                            <input class="form-control" placeholder="输入上映时间">
+                                            <input class="form-control" placeholder="输入上映时间" name="uptime">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影评分</label>
-                                            <input class="form-control" placeholder="输入电影评分">
+                                            <input class="form-control" placeholder="输入电影评分" name="score">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影评价人数</label>
-                                            <input class="form-control" placeholder="输入电影评价人数">
+                                            <input class="form-control" placeholder="输入电影评价人数" name="rated">
                                         </div>
                                         <div class="form-group">
                                             <label>输入电影简介</label>
-                                            <input class="form-control" placeholder="输入电影简介">
+                                            <input class="form-control" placeholder="输入电影简介" name="instruction">
                                         </div>
 
-                                        <button type="submit" class="btn btn-default">提交</button>
+                                        <button type="submit" class="btn btn-default" type="submit" name="submit" id="submit">提交</button>
                                         <button type="reset" class="btn btn-default">全部重置</button>
                                     </form>
                                 </div>
@@ -163,7 +268,35 @@
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            删除电影基本信息
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form" action="/deletefrombasic" method="POST" id="deleteForm">
+                                        <div class="form-group">
+                                            <label>输入电影中文名称</label>
+                                            <input class="form-control" placeholder="输入电影中文名称" name="cname">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default" type="submit" name="submit" id="submit">提交</button>
+                                        <button type="reset" class="btn btn-default">全部重置</button>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
             </div>
             <!-- /.row -->
         </div>

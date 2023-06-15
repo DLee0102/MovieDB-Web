@@ -1,9 +1,4 @@
-import os
 from flask import Flask, render_template, request, redirect, url_for,send_from_directory
-# import pandas as pd
-import jieba.analyse
-from wordcloud import WordCloud
-import sqlite3
 from dbopt import *
 
 app = Flask(__name__,template_folder='templates')
@@ -80,6 +75,43 @@ def signup_info():
             return redirect("/")
         else:
             return "出现错误，注册失败"
+
+@app.route("/insert2basic", methods=["GET", "POST"])
+def insert2basic():
+    if request.method == "POST":
+        IMDb = request.form.get("IMDb")
+        cname = request.form.get("cname")
+        fname = request.form.get("fname")
+        pic_link = request.form.get("pic_link")
+        director = request.form.get("director")
+        location = request.form.get("location")
+        language = request.form.get("language")
+        uptime = request.form.get("uptime")
+        score = request.form.get("score")
+        rated = request.form.get("rated")
+        instruction = request.form.get("instruction")
+        datalist = [IMDb, cname, fname, pic_link, director, location, language, uptime, score, rated, instruction]
+        for item in datalist:
+            if item == "":
+                return render_template("forms.html", ifshow_failed=True)
+        if insert_basic(datalist):
+            return render_template("forms.html", ifshow_succeeded=True)
+        else:
+            return "操作失败，请返回重试"
+        
+@app.route("/deletefrombasic", methods=["GET", "POST"])
+def deletefrombasic():
+    if request.method == "POST":
+        cname = request.form.get("cname")
+        datalist = [cname]
+        for item in datalist:
+            if item == "":
+                return render_template("forms.html", ifshow_failed=True)
+        if delete_basic(datalist):
+            return render_template("forms.html", ifshow_succeeded=True)
+        else:
+            return "操作失败，请返回重试"
+        
 
 if __name__ == "__main__":
     print("-------------------------------------------------------------------------------------")

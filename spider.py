@@ -59,16 +59,6 @@ findcommentator = re.compile(r'<a class="" href=".*">(.*?)</a>')
 # 找到短评内容
 findcommentcontent = re.compile(r'<span class="short">(.*?)</span>', re.S)
 
-
-# 影片评分
-findRating = re.compile(r'<span class="rating_num" property="v:average">(.*)</span>')
-# 找到评价人数
-findJudge = re.compile(r'<span>(\d*)人评价</span>')
-# 找到概况
-findInq = re.compile(r'<span class="inq">(.*)</span>')
-# 找到影片相关内容
-findBd = re.compile(r'<p class="">(.*?) </p>',re.S)
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(

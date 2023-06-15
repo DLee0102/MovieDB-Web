@@ -67,6 +67,51 @@ def select_all_fromtable(tablename):
     
     return result_list
 
+def insert_basic(datalist):
+    conn = sqlite3.connect(dbpath)
+    cur = conn.cursor()
+    
+    datalist = trans2sql(datalist)
+    
+    sql = '''
+    insert into basic (
+    IMDb,
+    cname,
+    fname,
+    pic_link,
+    director,
+    location,
+    language,
+    uptime,
+    score,
+    rated,
+    instruction
+    )values (%s)
+    '''%",".join(datalist)
+    print(sql)
+    cur.execute(sql)
+    conn.commit()
+    cur.close()
+    conn.close()
+    return True
+
+def delete_basic(datalist):
+    conn = sqlite3.connect(dbpath)
+    cur = conn.cursor()
+    
+    datalist = trans2sql(datalist)
+
+    sql = '''
+    delete from basic where cname = (%s)
+    '''%datalist[0]
+    print(sql)
+    cur.execute(sql)
+    conn.commit()
+    cur.close()
+    conn.close()
+    return True
+    
+
 # 统计电影评分
 def count_score():
     conn = sqlite3.connect(dbpath)
